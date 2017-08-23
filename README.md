@@ -26,7 +26,7 @@ You may use the left and right cursor keys to navigate, if the image pane has th
 
 ## Modes
 
-<strong>Click appropriate mode to switch between the two modes<strong>
+<strong>Click appropriate mode to switch between the two modes</strong>
 
 ### Creator Mode
 
