@@ -1,5 +1,8 @@
 import ecs100.*;
 
+import javax.swing.*;
+import java.io.File;
+
 /**
  * This class contains the main method of the program. 
  * 
@@ -11,8 +14,12 @@ import ecs100.*;
  * @author Thomas Kuehne
  * @version 5 September 2013
  */
-public class SlideshowApp implements UIButtonListener 
-{
+public class SlideshowApp implements UIButtonListener {
+    // Load required images using a JFileChooser
+    private JFileChooser fileChooser = new JFileChooser();
+    private final String EARTH = "Earth_Apollo17.jpg";
+    private File IMAGES_DIR;
+
     private Images images;             // A shared reference to a linked list of images. 
 
     private SlideshowCreator creator;  // responsible for creating slideshows.
@@ -29,9 +36,44 @@ public class SlideshowApp implements UIButtonListener
      * One collection of images is shared between creator and viewer. 
      */
     public SlideshowApp() {
+        chooseDir();
+
         images = new Images();
-        creator = new SlideshowCreator(images);
+        creator = new SlideshowCreator(IMAGES_DIR, images);
         viewer = new SlideshowViewer(images);
+    }
+
+    private void chooseDir() {
+        File test = null;
+
+        // set up the file chooser
+        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setDialogTitle("Select input directory");
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        // run the file chooser and check the user didn't hit cancel
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            // get the files in the selected directory and match them to
+            // the files we need.
+            File directory = fileChooser.getSelectedFile();
+            File[] files = directory.listFiles();
+
+            for (File f : files) {
+                if (f.getName().equals(EARTH)) {
+                    test = f;
+                }
+            }
+
+            // check none of the files are missing, and call the load
+            // method in your code.
+            if (test == null) {
+                JOptionPane.showMessageDialog(null, "Directory does not contain correct files", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            } else {
+                IMAGES_DIR = new File(test.getParent());    //  Set images directory
+            }
+        }
     }
 
     /**

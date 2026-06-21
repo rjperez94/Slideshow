@@ -1,4 +1,7 @@
 import ecs100.*;
+
+import java.io.File;
+
 /**
  * A creator allows to populate a list of images for later viewing with a slideshow viewer
  * Supported operations on images are adding, removing, and reversing.
@@ -9,10 +12,9 @@ import ecs100.*;
  * @author Thomas Kuehne 
  * @version 8 September 2013
  */
-public class SlideshowCreator implements UIKeyListener 
-{
-    private String[] hardcodedfilenames = {"Atmosphere.jpg", "BachalpseeFlowers.jpg", "Earth_Apollo17.jpg", "Galunggung.jpg", "HopetounFalls.jpg"};
-    private int fileadditionindex = 0;
+public class SlideshowCreator implements UIKeyListener {
+    private String[] hardcodedFileNames;
+    private int fileAdditionIndex = 0;
 
     // reference to the image list
     private Images images;
@@ -27,7 +29,14 @@ public class SlideshowCreator implements UIKeyListener
      * 
      * @param images the image list shared between creator and viewer
      */
-    public SlideshowCreator(Images images) {
+    public SlideshowCreator(File path, Images images) {
+        this.hardcodedFileNames = new String[]{
+                path.getAbsolutePath() + "/Atmosphere.jpg",
+                path.getAbsolutePath() + "/BachalpseeFlowers.jpg",
+                path.getAbsolutePath() + "/Earth_Apollo17.jpg",
+                path.getAbsolutePath() + "/Galunggung.jpg",
+                path.getAbsolutePath() + "/HopetounFalls.jpg"
+        };
         this.images = images;
     }
 
@@ -119,10 +128,10 @@ public class SlideshowCreator implements UIKeyListener
      * Adds the respective image after the currently selected image
      */
     public void addImageAfter() {
-        String imageFileName = this.hardcodedfilenames[this.fileadditionindex++];
+        String imageFileName = this.hardcodedFileNames[this.fileAdditionIndex++];
 
-        if (this.fileadditionindex >= this.hardcodedfilenames.length) {
-            this.fileadditionindex = 0;
+        if (this.fileAdditionIndex >= this.hardcodedFileNames.length) {
+            this.fileAdditionIndex = 0;
         }
 
         images.addImageAfter(imageFileName);
@@ -133,10 +142,10 @@ public class SlideshowCreator implements UIKeyListener
      * Adds an image before the currently selected image
      */  
     private void addImageBefore() {
-        String imageFileName = this.hardcodedfilenames[this.fileadditionindex++];
+        String imageFileName = this.hardcodedFileNames[this.fileAdditionIndex++];
 
-        if (this.fileadditionindex >= this.hardcodedfilenames.length) {
-            this.fileadditionindex = 0;
+        if (this.fileAdditionIndex >= this.hardcodedFileNames.length) {
+            this.fileAdditionIndex = 0;
         }
 
         images.addImageBefore(imageFileName);  
